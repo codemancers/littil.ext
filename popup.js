@@ -1,5 +1,5 @@
-$(document).ready(function() {
-  $('#fetch').click(function(){
-    console.log(window.getSelection().toString())
-  })
-})
+chrome.tabs.executeScript({
+    code: "window.getSelection().toString();"
+}, function(selection) {
+    document.getElementById("code-snippet").value = selection[0];
+});
