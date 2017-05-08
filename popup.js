@@ -4,70 +4,86 @@ chrome.tabs.executeScript({
     document.getElementById("code-snippet").value = selection[0];
 });
 
-// $('#attach-repo').hide()
-// $('#til-form').hide()
+$('#til-form').hide();
+$('#signin-form').hide();
+$('#successNotification').hide();
+$('#errorNotification').hide();
+$('#relogin').hide();
+
+
+var accessToken = localStorage.getItem('accessToken');
 
 $(document).ready(function(){
-    // var accessToken = localStorage.getItem('accessToken')
-    localStorage.removeItem('accessToken')
-    var accessToken = window.btoa('<access_token>:X')
-    localStorage.setItem('accessToken', accessToken)
-    // if(accessToken) {
-    //     $('#attach-repo').hide()
-    //     $('#til-form').show()
-    // } else {
-    //     $('#attach-repo').show()
-    //     $('#til-form').hide()
-    // }
+    if(accessToken) {
+        $('#til-form').show();
+        $('#relogin').show();
+    } else {
+        $('#signin-form').show();
+    }
+});
 
-    $('#attach-repo').submit(function() {
-        var url = $('input[type="text"]#git-url').val()
-        $.ajax({
-            xhrFields: {
-                withCredentials: true
-            },
-            url: 'https://til-server.herokuapp.com/api/git_repos',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                git_repo: {
-                    url: url
-                }
-            },
-             headers: {
-                'Authorization': 'Basic ' + localStorage.getItem('accessToken')
-            }
-        })
-        .done(function() {
-            console.log('Til Repo added')
-        })
-        .fail(function(error) {
-            console.log(error)
-        })
-    })
-
-    // Ignore for now
-    // $('#til-form').submit(function() {
-    //     var code = $('textarea#code-snippet').val()
-    //     var notes = $('textarea#notes').val()
-    //     var tags = $('input[type="text"]#tags').val()
-    //     $.ajax({
-    //         url: 'http://til-server.herokuapp.com/',
-    //         method: 'POST',
-    //         data: {
-    //             code_snippet: code,
-    //             notes: notes,
-    //             tags: tags
-    //         },
-    //         headers: {
-    //             "Authorization": accessToken
-    //         }
-    //     })
-    //     .done(function() {
-    //         alert('success')
-    //     })
-    //     .fail(function() {
-    //         alert('failed')
-    //     })
-    // })
+$('#relogin').on('click', function(e) {
+    e.preventDefault();
+    localStorage.removeItem('accessToken');
+    $("#til-form")[0].reset();
+    $("#signin-form")[0].reset();
+    $('#signin-form').show();
+    $('#til-form').hide();
+    location.reload()
 })
+
+
+$('#signin-btn').on('click', function(e) {
+    e.preventDefault();
+    var accessTokenInp = $('input[type="text"]#accessToken').val()
+
+    if(accessTokenInp) {
+        localStorage.setItem('accessToken', btoa(accessTokenInp+':X'));
+        $('#errorNotification').hide();
+        $('#successNotification').show().text('accessToken saved');
+        $('#signin-form').hide();
+        $('#til-form').show();
+        $('#relogin').show();
+    } else {
+        $('#successNotification').hide();
+        $('#errorNotification').show().text('Please enter accessToken before continuing');
+    }
+});
+
+$('#save-til').on('click', function(e) {
+    e.preventDefault();
+    var code = $('textarea#code-snippet').val()
+    var notes = $('textarea#notes').val()
+    var tags = $('input[type="text"]#tags').val()
+    $.ajax({
+        url: 'https://til-server.herokuapp.com/api/tils',
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader ("Authorization", "Basic " + accessToken);
+        },
+        data: {
+            "til": {
+                "tags": tags,
+                "snippet": code,
+                "notes": notes
+            }
+        }
+    })
+    .done(function() {
+        $("#til-form")[0].reset();
+        $('#errorNotification').hide();
+        $('#successNotification').show().text('TIL Saved');
+    })
+    .fail(function(response) {
+        $('#successNotification').hide();
+        $('#errorNotification').show().text('Something went wrong, probably your accessToken expired!!');
+    })
+});
+
+$('#relogin').on('click', function(e) {
+    e.preventDefault();
+    localStorage.removeItem('accessToken');
+    $('#signin-form').show();
+    $('#til-form').hide();
+});
