@@ -55,30 +55,35 @@ $('#save-til').on('click', function(e) {
     var code = $('textarea#code-snippet').val()
     var notes = $('textarea#notes').val()
     var tags = $('input[type="text"]#tags').val()
-    $.ajax({
-        url: 'https://til-server.herokuapp.com/api/tils',
-        type: 'POST',
-        dataType: 'json',
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader ("Authorization", "Basic " + accessToken);
-        },
-        data: {
-            "til": {
-                "tags": tags,
-                "snippet": code,
-                "notes": notes
+    if(code && notes) {
+        $.ajax({
+            url: 'https://til-server.herokuapp.com/api/tils',
+            type: 'POST',
+            dataType: 'json',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + accessToken);
+            },
+            data: {
+                "til": {
+                    "tags": tags,
+                    "snippet": code,
+                    "notes": notes
+                }
             }
-        }
-    })
-    .done(function() {
-        $("#til-form")[0].reset();
-        $('#errorNotification').hide();
-        $('#successNotification').show().text('TIL Saved');
-    })
-    .fail(function(response) {
-        $('#successNotification').hide();
-        $('#errorNotification').show().text('Something went wrong, probably your accessToken expired!!');
-    })
+        })
+        .done(function() {
+            $("#til-form")[0].reset();
+            $('#errorNotification').hide();
+            $('#successNotification').show().text('TIL Saved');
+        })
+        .fail(function(response) {
+            $('#successNotification').hide();
+            $('#errorNotification').show().text('Something went wrong, probably your accessToken expired!!');
+        })
+    } else {
+        $('#errorNotification').show().text('Code and Notes are required fields');
+    }
+
 });
 
 $('#relogin').on('click', function(e) {
