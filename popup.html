@@ -1,45 +1,27 @@
 <html>
   <head>
-    <title>TIL</title>
-    <style>
-      .til {
-        width: 400px;
-        height: 400px;
-      }
-      .til form {
-        width: 100%;
-      }
-      .form-group {
-        margin: 10px;
-      }
-      .form-group input[type="text"], .form-group textarea{
-        border-radius: 2px;
-        font-size: 14px;
-        width: 100%;
-        border: 1px solid #e9e9e9;
-        padding: 8px;
-      }
-      input[type="submit"] {
-        background-color: rgb(39, 174, 96);
-        color: #ffffff;
-        padding: 8px 10px;
-        text-align: center;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 3px;
-        font-size: 14px;
-        width: 100%;
-      }
-      input[type="submit"]:hover {
-        cursor: pointer;
-      }
-      .form-group input[type="text"]:active, .form-group textarea:active {
-        border: 1px solid #e9e9e9;
-      }
-    </style>
+    <title>TIL Extension</title>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+    <link href="styles.css" type="text/css" rel="stylesheet">
   </head>
   <body>
     <div class="til">
+      <div class="notification" id="errorNotification"></div>
+      <div class="notification" id="successNotification"></div>
+      <form id="signin-form">
+        <div class="form-group">
+          Before you can use this, you first need to
+          <a href="https://til-server.herokuapp.com/auth/new" target="_blank" id="sign-in">
+            Sign In
+          </a> and then save your access token here
+        </div>
+        <div class="form-group">
+          <input type="text" name="accessToken" id="accessToken" placeholder="accessToken" />
+        </div>
+        <div class="form-group">
+          <input type="button" value="Login with accessToken" id="signin-btn"/>
+        </div>
+      </form>
       <form id="til-form">
         <div class="form-group">
           <textarea id="code-snippet" rows="10" name="code-snippet" placeholder="Code Snippet"></textarea>
@@ -51,9 +33,12 @@
           <input type="text" name="tags" id="tags" placeholder="Tags"/>
         </div>
         <div class="form-group">
-          <input type="submit" value="Save" id="save-til"/>
+          <input type="button" value="Save TIL" id="save-til"/>
         </div>
       </form>
+      <div class="form-group">
+        <input type="button" id="relogin" value="Remove accessToken" />
+      </div>
     </div>
     <script src="./jquery.js"></script>
     <script src="./popup.js"></script>

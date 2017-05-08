@@ -11,6 +11,6 @@
   },
   "permissions": [
     "activeTab",
-    "<all_urls>"
+    "https://til-server.herokuapp.com/*"
   ]
 }
