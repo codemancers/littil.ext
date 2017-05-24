@@ -1,0 +1,64 @@
+body {
+  font-family: 'Oxygen', sans-serif;
+}
+
+.notification {
+  text-align: center;
+  color: #fff;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+#errorNotification {
+  background-color: #f35252;
+}
+
+#successNotification {
+  background-color:  #56bf3f;
+}
+
+.til {
+  width: 400px;
+}
+.til form {
+  width: 100%;
+}
+
+.form-group {
+  margin: 10px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  border-radius: 2px;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #e9e9e9;
+  padding: 8px;
+}
+
+input[type="button"] {
+  background-color: #44b8b9;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 3px;
+  color: #fff;
+  display: block;
+  width: 100%;
+  font-size: 14px;
+}
+
+input[type="button"]#relogin {
+  background-color: #f35252;
+}
+
+input[type="button"]:hover {
+  cursor: pointer;
+}
+
+.form-group input[type="text"]:active,
+.form-group textarea:active {
+  border: 1px solid #e9e9e9;
+}
