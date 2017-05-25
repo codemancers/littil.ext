@@ -7,8 +7,8 @@
   "homepage_url": "https://github.com/code-mancers/tils",
 
   "icons": {
-    "48": "icon48.png",
-    "96": "icon@2x.png"
+    "48": "../assets/icon48.png",
+    "96": "../assets/icon@2x.png"
   },
 
   "permissions": [
@@ -17,15 +17,15 @@
   ],
 
   "browser_action": {
-    "default_icon": "icons48.png",
+    "default_icon": "../assets/icons48.png",
     "default_title": "TIL",
-    "default_popup": "popup.html"
+    "default_popup": "../assets/popup.html"
   },
 
   "content_scripts": [
     {
       "matches": ["*://*.mozilla.org/*"],
-      "js": ["popup.js"]
+      "js": ["../assets/popup.js"]
     }
   ]
 }
