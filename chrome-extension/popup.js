@@ -89,6 +89,7 @@ $('#signin-btn').on('click', function(e) {
     $('#errorNotification').hide();
     $('#successNotification').show().text('accessToken saved');
     $('#signin-form').hide();
+    setTimeout(function() {$('#successNotification').fadeOut('slow')}, 5000)
     fetchOrgs();
   } else {
     $('#successNotification').hide();
@@ -127,5 +128,7 @@ $('#orgs').on('submit', function(e) {
   localStorage.setItem('orgs', JSON.stringify(selectedOrgs));
   $('#til-form').show();
   $('#orgs').hide();
-  $('#relogin').show();  
+  $('#relogin').show();
+  $('#successNotification').show().text('Organizations saved');
+  setTimeout(function() {$('#successNotification').fadeOut('slow')}, 5000)
 })
