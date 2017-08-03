@@ -36,7 +36,16 @@
           <input type="button" value="Save TIL" id="save-til"/>
         </div>
       </form>
-      <div class="form-group">
+      <form id="orgs">
+        <label>Select orgs below to post to</label>
+        <div class="help-text">
+          Tils captured will be uploaded to the organizations that will be selected. This helps you to contribute to multiple organizations at once
+        </div>
+        <div id="orgs_inputs">
+        </div>
+        <input type="submit" value="Save Orgs">
+      </form>
+        <div class="form-group">
         <input type="button" id="relogin" value="Remove accessToken" />
       </div>
     </div>

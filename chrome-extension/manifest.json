@@ -11,6 +11,6 @@
   },
   "permissions": [
     "activeTab",
-    "https://til-server.herokuapp.com/*"
+    "http://www.littil.io/*"
   ]
 }
