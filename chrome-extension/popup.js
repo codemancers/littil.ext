@@ -10,13 +10,37 @@ $('#successNotification').hide();
 $('#errorNotification').hide();
 $('#relogin').hide();
 $('#orgs').hide();
+$('#editMenu').hide();
 
 var accessToken = localStorage.getItem('accessToken');
 
+$('#home').on('click', function() {
+  window.location.reload();
+});
+
+$('#editMenu').on('click', function() {
+  $('form').hide();
+  fetchOrgs();
+});
+
 function renderOrgs(orgs) {
-  orgs.map(function(org) {
-    $('#orgs_inputs').append('<input type="checkbox" class="orgs_option" value='+org.id+ ' />' + org.name);
+  const savedOrgs = JSON.parse(localStorage.getItem('orgs'));
+  const ids = orgs.map(function(org) { return org.id });
+  const matched = ids.map(function(id) {
+    if (savedOrgs.indexOf(id.toString()) > -1) {
+      return id;
+    }
   });
+  function ifChecked(id) {
+    if (matched.indexOf(id) > -1) {
+      return 'checked';
+    }
+    return '';
+  };
+  const checkboxes = orgs.map(function(org) {
+    return ('<input type="checkbox" '+ifChecked(org.id)+' class="orgs_option" value='+org.id+ ' />' + org.name);
+  });
+  $('#orgs_inputs').html(checkboxes);
 }
 
 function fetchOrgs() {
@@ -64,6 +88,7 @@ $(document).ready(function(){
   if(accessToken) {
     $('#til-form').show();
     $('#relogin').show();
+    $('#editMenu').show();
   } else {
     $('#signin-form').show();
   }
@@ -104,6 +129,9 @@ $('#save-til').on('click', function(e) {
   var tags = $('input[type="text"]#tags').val();
   if(code && notes) {
     selectedOrgs = JSON.parse(localStorage.getItem('orgs'));
+    if (selectedOrgs.length === 0) {
+      $('#errorNotification').show().text('Please select the organization to post to.');
+    }
     selectedOrgs.forEach(function(orgId) { postTil(orgId, {code: code, notes: notes, tags: tags}) });
   } else {
     $('#errorNotification').show().text('Code and Notes are required fields');

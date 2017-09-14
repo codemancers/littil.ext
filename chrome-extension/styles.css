@@ -9,6 +9,7 @@ body {
   font-size: 14px;
   border-radius: 3px;
   letter-spacing: 1px;
+  margin-bottom: 15px;
 }
 
 #errorNotification {
@@ -64,9 +65,11 @@ input[type="button"]:hover {
   border: 1px solid #e9e9e9;
 }
 
-#orgs {
+form#orgs {
   font-size: 14px;
   margin: 2rem auto;
+  padding: 10px;
+  width: auto;
 }
 
 #orgs_inputs {
@@ -76,4 +79,12 @@ input[type="button"]:hover {
 .help-text {
   font-size: 10px;
   margin: 5px auto 20px auto;
+}
+a#editMenu {
+  display: block;
+  float: right;
+  margin-bottom: 10px;
+}
+a:hover {
+  cursor: pointer;
 }
